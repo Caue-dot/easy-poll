@@ -51,7 +51,7 @@
     </div>
         <div class="w-87 sm:100">
             <div class="text-blue-600 font-medium mb-2">Link da Enquete(Clique para copiar):</div>
-            <button id="copy-link" class="p-1.5 border border-gray-300
+            <button id="copy-link" class="w-87 sm:100 p-1.5 border border-gray-300
                         text-black bg-transparent cursor-pointer">{{url('polls/' . $poll->id) }}</button>
         </div>
 
