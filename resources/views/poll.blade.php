@@ -1,6 +1,7 @@
 <html>
 <head>
     <title>Poll</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 @vite([
@@ -13,8 +14,8 @@
 <body>
 <x-header></x-header>
 <main class="flex flex-col items-center">
-    <h1 class="text-2xl font-bold mb-10">{{ $poll->title }}</h1>
-    <div class="flex w-100 flex-col">
+    <h1 class="text-2xl font-bold mt-10 sm:mt-0 mb-10">{{ $poll->title }}</h1>
+    <div class="flex w-80 sm:w-100 flex-col">
         <ol class="flex flex-col gap-2 mb-5" id="poll-list">
             <div class="text-lg font-medium">Alternativas:</div>
             @foreach($poll->alternatives as $alternative)
@@ -48,9 +49,9 @@
 
 
     </div>
-        <div>
+        <div class="w-87 sm:100">
             <div class="text-blue-600 font-medium mb-2">Link da Enquete(Clique para copiar):</div>
-            <button id="copy-link" class="min-w-110 p-1.5 border border-gray-300
+            <button id="copy-link" class="p-1.5 border border-gray-300
                         text-black bg-transparent cursor-pointer">localhost/polls/{{$poll->id}}</button>
         </div>
 
