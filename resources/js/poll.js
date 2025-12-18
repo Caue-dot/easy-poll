@@ -9,29 +9,34 @@ function getVotesSpan(id) {
     return item ? item.querySelector('.votes') : null
 }
 
-function disableButtons(){
+function changeButtonsState(state){
     const pollList = document.getElementById('poll-list');
     const buttons = pollList.querySelectorAll('button');
     buttons.forEach(button => {
-        button.disabled = true;
+        button.disabled = state;
     })
 }
 
 
+
 const sendVote = (id) => {
     console.log(id);
+    const votesSpan = getVotesSpan(id)
+    votesSpan.textContent = String(parseInt(votesSpan.textContent) + 1)
+    changeButtonsState(true);
+
+
     axios.post(`/votes/${id}`)
         .then(() => {
-            const votesSpan = getVotesSpan(id)
-            votesSpan.textContent = String(parseInt(votesSpan.textContent) + 1)
-            disableButtons();
             errorMessage.textContent = ""
             successMessage.textContent = "Votado com sucesso!";
         })
         .catch((error)=> {
             console.log(error);
+            votesSpan.textContent = String(parseInt(votesSpan.textContent) - 1)
             successMessage.textContent = ""
             errorMessage.textContent = error.response.data.message
+            changeButtonsState(false);
         });
 }
 
