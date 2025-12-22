@@ -5,6 +5,8 @@ Easy Poll é uma aplicação web para criar enquetes com votação em tempo real
 sem necessidade de cadastro. 
 Descubra a opinião do público de forma rápida e interativa.
 
+Demo: https://easy-poll.live/
+
 
 ## Requisitos
 
