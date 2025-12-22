@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('polls', function (Blueprint $table) {
             $table->uuid('id')->primary()->autoIncrement();
+            $table->uuid('user_id');
             $table->string('title');
             $table->integer('time_limit')->default(0);
             $table->string('status')->default('active');

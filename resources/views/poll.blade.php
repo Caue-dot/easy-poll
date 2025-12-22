@@ -23,7 +23,7 @@
                     <li class="grid grid-cols-1 gap-3 items-stretch" data-id="{{ $alternative->id }}">
 
                         <button
-                            class="rounded-sm bg-cyan-500 hover:bg-sky-700 text-white hover:black cursor-pointer p-1.5 font-medium
+                            class="rounded-sm bg-cyan-500 hover:bg-sky-700 text-white cursor-pointer p-1.5 font-medium
                         disabled:font-light disabled:border disabled:border-gray-300
                         disabled:text-gray-500 disabled:bg-transparent disabled:cursor-not-allowed"
                             {{$voted || $poll->status == 'unactive' ? 'disabled' : ''}}

@@ -15,6 +15,7 @@ class PollController extends Controller
     {}
 
     public function showCreatePoll(){
+        $this->guestService->generateGuestIdIfDoesntExist();
         return view('poll-store');
     }
     public function get(Request $request, Poll $poll){
@@ -23,6 +24,19 @@ class PollController extends Controller
 
         return view('poll', ['poll' => $poll->load('alternatives'), 'voted' => $userVoted]);
     }
+
+    public function showPolls(){
+        $guestId = $this->guestService->getGuestId();
+
+        $polls = Poll::where('user_id', $guestId)->get();
+
+
+        foreach ($polls as $poll) {
+            $poll['time_left'] =  $this->pollService->getRemainingTime($poll);
+        }
+
+        return view('polls', ['polls' => $polls]);
+    }
     public function store(Request $request){
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
@@ -30,7 +44,8 @@ class PollController extends Controller
             'alternatives' => ['required', 'array', 'min:2', 'max:10'],
             'alternatives.*' => ['required', 'string', 'max:255'],
         ]);
-
+        $data['user_id'] = $this->guestService->getGuestId();
+//        dd($data['user_id']);
         $poll = Poll::create($data);
         foreach ($data['alternatives'] as $alternative){
             $poll->alternatives()->create(['title' => $alternative]);

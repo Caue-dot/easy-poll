@@ -12,6 +12,7 @@ class Poll extends Model
     protected $fillable = [
         'title',
         'time_limit',
+        'user_id'
     ];
 
     public function alternatives(): HasMany{

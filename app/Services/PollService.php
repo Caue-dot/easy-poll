@@ -15,6 +15,11 @@ readonly class PollService
             || \Cache::get($poll->id) === request()->ip();
     }
 
+    public function getRemainingTime($poll): float{
+        $diffHours = $poll->created_at->diffInHours(\Carbon\Carbon::now(), false);
+        return round($poll->time_limit - $diffHours);
+    }
+
     public function vote($alternative): void{
         $guestId = $this->guestService->getGuestId();
         $poll = $alternative->poll;

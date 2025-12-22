@@ -5,6 +5,7 @@
 
     <div class="hidden sm:flex items-center gap-5">
         <a href="/" class="cursor-pointer hover:underline font-medium"> Pagina Inicial </a>
-        <a href="/polls/create" class="cursor-pointer hover:underline font-medium"> Criar Enquete </a>
+        <a href="/polls/create" class="cursor-pointer hover:underline font-medium"> Criar Enquete</a>
+        <a href="/polls/all" class="cursor-pointer hover:underline font-medium"> Minhas Enquetes </a>
     </div>
 </header>
