@@ -11,7 +11,7 @@ Demo: https://easy-poll.live/
 ## Requisitos
 
 - Composer
-- PHP >=8.2
+- PHP >= 8.2
 - Node
 - NPM
 
@@ -45,7 +45,7 @@ npm run dev
 ```
 
 
-## Contribuindo
+## Contribuição
 
 1. Faça um fork do projeto  (<https://github.com/Caue-dot/easy-poll/fork>)
 2. Crie uma branch para sua funcionalidade (`git checkout -b feature/nova-feature`)
