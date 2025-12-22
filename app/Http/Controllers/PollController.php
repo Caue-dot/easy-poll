@@ -5,19 +5,24 @@ namespace App\Http\Controllers;
 use App\Events\VoteEvent;
 use App\Models\Alternative;
 use App\Models\Poll;
+use App\Models\Vote;
 use Illuminate\Http\Request;
-use PHPUnit\Util\Test;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 
 class PollController extends Controller
 {
     public function showCreatePoll(){
         return view('poll-store');
     }
-    public function get(Poll $poll){
-//        abort_if($poll->status === 'unactive', 403);
-        return view('poll', ['poll' => $poll->load('alternatives')]);
+    public function get(Request $request, Poll $poll){
+        $guestId = $request->cookie('guest-id');
+        $userVoted = $poll->votes()->where('user_id', $guestId)->exists();
+
+        return view('poll', ['poll' => $poll->load('alternatives'), 'voted' => $userVoted]);
     }
     public function store(Request $request){
+//        Redis::append()
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'time_limit' => ['required', 'integer', 'min:1'],
@@ -34,13 +39,25 @@ class PollController extends Controller
     }
     public function vote(Request $request, Alternative $alternative){
         abort_if($alternative->poll->status === 'unactive', 403, 'Essa enquete não está ativa.');
-        $pollId = $alternative->poll->id;
-        if($request->cookie("voted_$pollId")){
+        $poll = $alternative->poll;
+
+        $guestId = $request->cookie('guest-id');
+        $newUser = false;
+        if(!$guestId){
+            $guestId = Str::uuid()->toString();
+            $newUser = true;
+        }
+
+        if($poll->votes()->where('user_id', $guestId)->exists()){
             abort(403, 'Você já votou nessa enquete!');
         }
         broadcast(new VoteEvent($alternative))->toOthers();
         $alternative->increment('votes_count');
-        return response()->json()->cookie("voted_$pollId", true, 60 * 24 * 30);
+        $poll->votes()->create(['user_id' => $guestId]);
+
+        if($newUser){
+            return response()->json()->cookie("guest-id", $guestId, 60 * 24 * 30);
+        }
 
     }
 }

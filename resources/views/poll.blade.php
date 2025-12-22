@@ -26,7 +26,7 @@
                             class="rounded-sm bg-cyan-500 hover:bg-sky-700 text-white hover:black cursor-pointer p-1.5 font-medium
                         disabled:font-light disabled:border disabled:border-gray-300
                         disabled:text-gray-500 disabled:bg-transparent disabled:cursor-not-allowed"
-                            {{request()->cookie("voted_$poll->id") || $poll->status == 'unactive' ? 'disabled' : ''}}
+                            {{$voted || $poll->status == 'unactive' ? 'disabled' : ''}}
                             data-alternative-id="{{ $alternative->id }}"
                             id="vote-{{ $alternative->id }}}"> {{$alternative->title}}:
                             <span class="votes">{{$alternative->votes_count}} </span></button>
@@ -49,9 +49,9 @@
 
 
     </div>
-        <div class="w-87 sm:100">
+        <div class="w-87 sm:w-130">
             <div class="text-blue-600 font-medium mb-2">Link da Enquete(Clique para copiar):</div>
-            <button id="copy-link" class="w-87 sm:100 p-1.5 border border-gray-300
+            <button id="copy-link" class="w-87 sm:w-130 p-1.5 border border-gray-300
                         text-black bg-transparent cursor-pointer">{{url('polls/' . $poll->id) }}</button>
         </div>
 

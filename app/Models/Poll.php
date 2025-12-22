@@ -17,4 +17,8 @@ class Poll extends Model
     public function alternatives(): HasMany{
         return $this->hasMany(Alternative::class);
     }
+
+    public function votes(): HasMany{
+        return $this->hasMany(Vote::class);
+    }
 }
