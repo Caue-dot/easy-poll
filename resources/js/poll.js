@@ -9,11 +9,11 @@ function getVotesSpan(id) {
     return item ? item.querySelector('.votes') : null
 }
 
-function changeButtonsState(state){
+function changeButtonsEnabledState(state){
     const pollList = document.getElementById('poll-list');
     const buttons = pollList.querySelectorAll('button');
     buttons.forEach(button => {
-        button.disabled = state;
+        button.disabled = !state;
     })
 }
 
@@ -22,21 +22,23 @@ function changeButtonsState(state){
 const sendVote = (id) => {
     console.log(id);
     const votesSpan = getVotesSpan(id)
-    votesSpan.textContent = String(parseInt(votesSpan.textContent) + 1)
-    changeButtonsState(true);
+    const numberVotes = parseInt(votesSpan.textContent)
+    votesSpan.textContent = "..."
+    changeButtonsEnabledState(false);
 
 
     axios.post(`/votes/${id}`)
         .then(() => {
+            votesSpan.textContent = String(numberVotes + 1)
             errorMessage.textContent = ""
             successMessage.textContent = "Votado com sucesso!";
         })
         .catch((error)=> {
             console.log(error);
-            votesSpan.textContent = String(parseInt(votesSpan.textContent) - 1)
+            votesSpan.textContent = String(numberVotes)
             successMessage.textContent = ""
             errorMessage.textContent = error.response.data.message
-            changeButtonsState(false);
+            changeButtonsEnabledState(true);
         });
 }
 
