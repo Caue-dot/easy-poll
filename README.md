@@ -11,7 +11,7 @@ Demo: https://easy-poll.live/
 ## Requisitos
 
 - Composer
-- PHP 8.2
+- PHP >=8.2
 - Node
 - NPM
 
