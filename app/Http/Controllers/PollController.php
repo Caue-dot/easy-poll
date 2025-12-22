@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PollStoreRequest;
 use App\Models\Alternative;
 use App\Models\Poll;
 use App\Services\GuestService;
@@ -36,13 +37,8 @@ class PollController extends Controller
 
         return view('polls', ['polls' => $polls]);
     }
-    public function store(Request $request){
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:255'],
-            'time_limit' => ['required', 'integer', 'min:1'],
-            'alternatives' => ['required', 'array', 'min:2', 'max:10'],
-            'alternatives.*' => ['required', 'string', 'max:255'],
-        ]);
+    public function store(PollStoreRequest $request){
+        $data = $request->validated();
         $data['user_id'] = $this->guestService->getGuestId();
         $poll = Poll::create($data);
         foreach ($data['alternatives'] as $alternative){
