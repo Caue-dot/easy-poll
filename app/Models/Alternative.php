@@ -14,7 +14,5 @@ class Alternative extends Model
         return $this->belongsTo(Poll::class);
     }
 
-    public function votes(): HasMany{
-        return $this->hasMany(Vote::class);
-    }
+
 }
