@@ -40,11 +40,11 @@
                 <p>Deseja começar uma nova? <a class="text-blue-600 font-medium underline" href="/polls/create">Criar
                         nova enquete</a></p>
             @elseif(request()->cookie("voted_$poll->id"))
-                <p class="text-left">Seu voto já foi registrado nessa enquete!</p>
+                <div class="text-left">Seu voto já foi registrado nessa enquete!</div>
             @endif
-            <p class="text-green-500 font-medium" id="success-message"></p>
+            <div class="text-green-500 font-medium" id="success-message"></div>
 
-            <p class="text-red-600 font-medium mt-2" id="error-message"></p>
+            <div class="text-red-600 font-medium mt-2" id="error-message"></div>
         </div>
 
 
