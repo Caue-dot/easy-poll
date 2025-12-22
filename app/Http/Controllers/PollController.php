@@ -30,7 +30,6 @@ class PollController extends Controller
 
         $polls = Poll::where('user_id', $guestId)->get();
 
-
         foreach ($polls as $poll) {
             $poll['time_left'] =  $this->pollService->getRemainingTime($poll);
         }
@@ -45,7 +44,6 @@ class PollController extends Controller
             'alternatives.*' => ['required', 'string', 'max:255'],
         ]);
         $data['user_id'] = $this->guestService->getGuestId();
-//        dd($data['user_id']);
         $poll = Poll::create($data);
         foreach ($data['alternatives'] as $alternative){
             $poll->alternatives()->create(['title' => $alternative]);

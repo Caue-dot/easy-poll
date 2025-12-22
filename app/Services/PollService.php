@@ -11,8 +11,7 @@ readonly class PollService
 
     public function userVoted($poll): bool{
         $guestId = $this->guestService->getGuestId();
-        return $poll->votes()->where('user_id', $guestId)->exists()
-            || \Cache::get($poll->id) === request()->ip();
+        return $poll->votes()->where('user_id', $guestId)->exists();
     }
 
     public function getRemainingTime($poll): float{
@@ -28,7 +27,6 @@ readonly class PollService
         $alternative->increment('votes_count');
 
         $poll->votes()->create(['user_id' => $guestId]);
-        \Cache::put($poll->id, request()->ip(), ttl:60*60);
     }
 
 }
