@@ -18,4 +18,4 @@ Schedule::call(function (){
             $poll->save();
         }
     }
-})->hourly();
+})->everyMinute();
