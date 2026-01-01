@@ -13,7 +13,7 @@
 <body class>
 <x-header></x-header>
 <main class="flex flex-col items-center h-8/12 justify-center">
-    <h2 class="text-2xl mb-6">Login</h2>
+    <h2 class="text-2xl mb-6 font-bold">Login</h2>
 
     @if ($errors->any())
         <div style="color:red;">
