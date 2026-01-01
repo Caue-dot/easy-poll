@@ -7,6 +7,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/login', function () {
+    return view('login');
+});
+
 Route::prefix('/polls')->group(function () {
     Route::get('/create', [\App\Http\Controllers\PollController::class, 'showCreatePoll']);
     Route::get('/all', [\App\Http\Controllers\PollController::class, 'showPolls']);
