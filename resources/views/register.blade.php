@@ -1,32 +1,38 @@
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro</title>
 </head>
-<body>
 
-<h2>Register</h2>
+@vite([
+    'resources/js/app.js',
+    'resources/js/poll-store.js',
+    'resources/css/app.css'
+])
+<body class>
+<x-header></x-header>
+<main class="flex flex-col items-center h-8/12 justify-center">
+    <h2 class="text-2xl mb-6">Registro</h2>
 
-<form method="POST" action="/register">
-    @csrf
+    @if ($errors->any())
+        <div style="color:red;">
+            {{ $errors->first() }}
+        </div>
+    @endif
 
-    <label>Name:</label><br>
-    <input type="text" name="name" value="{{ old('name') }}"><br><br>
+    <form class="flex flex-col gap-1 2xl:gap-2" method="POST" action="/register">
+        @csrf
 
-    <label>Email:</label><br>
-    <input type="email" name="email"><br><br>
+        <input class="border w-80 2xl:w-120 rounded-sm border-gray-300 p-1.5 " type="text" placeholder="Nome" name="name" value="{{ old('name') }}"><br>
+        <input class="border w-80 2xl:w-120 rounded-sm border-gray-300 p-1.5" placeholder="Email" type="email" name="email"><br>
+        <input class="border w-80 2xl:w-120 rounded-sm border-gray-300 p-1.5" placeholder="Senha" type="password" name="password"><br>
 
-    <label>Password:</label><br>
-    <input type="password" name="password"><br><br>
+        <button class="mb-2 rounded-xs  w-full bg-cyan-500 hover:bg-sky-700 text-white hover:black cursor-pointer p-1.5" type="submit">Registrar</button>
+        <div>Já tem uma conta? <a href="/login" class="text-blue-600 font-medium underline">Login</a></div>
+    </form>
+</main>
 
-    <button type="submit">Register</button>
-</form>
-
-@if ($errors->any())
-    <div style="color:red;">
-        {{ $errors->first() }}
-    </div>
-@endif
 
 </body>
 </html>
