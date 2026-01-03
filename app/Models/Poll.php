@@ -12,7 +12,8 @@ class Poll extends Model
     protected $fillable = [
         'title',
         'time_limit',
-        'user_id'
+        'user_id',
+        'require_login'
     ];
 
     public function alternatives(): HasMany{

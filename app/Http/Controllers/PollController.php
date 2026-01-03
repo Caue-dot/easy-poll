@@ -13,17 +13,24 @@ class PollController extends Controller
 {
     public function __construct(private readonly PollService  $pollService,
                                 private readonly  UserService $guestService)
-    {}
+    {
+        $this->guestService->generateGuestIdIfDoesntExist();
+    }
 
     public function showCreatePoll(){
-        $this->guestService->generateGuestIdIfDoesntExist();
         return view('poll-store');
     }
-    public function get(Request $request, Poll $poll){
+    public function show(Poll $poll){
+        $isExpired = $this->pollService->isPollExpired($poll);
         $userVoted = $this->pollService->userVoted($poll);
-        $this->guestService->generateGuestIdIfDoesntExist();
+        $canVote = !($isExpired || $userVoted || $this->pollService->canGuestUserVote($poll));
 
-        return view('poll', ['poll' => $poll->load('alternatives'), 'voted' => $userVoted]);
+        return view('poll',
+            [
+                'poll' => $poll->load('alternatives'),
+                'canVote' => $canVote,
+                'isExpired' => $isExpired,
+                'userVoted' => $userVoted]);
     }
 
     public function showPolls(){
@@ -50,8 +57,13 @@ class PollController extends Controller
     public function vote(Alternative $alternative){
         abort_if($alternative->poll->status === 'unactive', 403, 'Essa enquete não está ativa.');
 
-        $userVoted = $this->pollService->userVoted($alternative->poll);
+        $poll = $alternative->poll;
+        $userVoted = $this->pollService->userVoted($poll);
+        $isPollExpired = $this->pollService->isPollExpired($poll);
+
         abort_if($userVoted, 403, 'Você já votou nessa enquete!');
+        abort_if($isPollExpired, 403, 'Essa enquete está expirada');
+        abort_if($this->pollService->canGuestUserVote($poll), 403, 'Essa enquete requer que você esteja logado!');
 
         $this->pollService->vote($alternative);
 

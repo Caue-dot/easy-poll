@@ -26,6 +26,7 @@ class PollStoreRequest extends FormRequest
             'time_limit' => ['required', 'integer', 'min:1'],
             'alternatives' => ['required', 'array', 'min:2', 'max:10'],
             'alternatives.*' => ['required', 'string', 'max:255'],
+            'require_login' => ['boolean'],
         ];
     }
 
@@ -41,7 +42,7 @@ class PollStoreRequest extends FormRequest
             'alternatives.required' => 'Insira pelo menos duas alternativas',
             'alternatives.min' => 'Insira pelo menos duas alternativas',
             'alternatives.*.max' => 'A alternativa é muito grane(máximo 255 caracteres)',
-            'alternatives.*.required' => 'Insira pelo menos duas alternativas',
+            'alternatives.*.required' => 'Preencha todas as alternativas',
         ];
     }
 }

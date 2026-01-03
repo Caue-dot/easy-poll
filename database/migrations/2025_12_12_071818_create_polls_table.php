@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->integer('time_limit')->default(0);
             $table->string('status')->default('active');
+            $table->boolean('require_login')->default(false);
             $table->timestamps();
         });
     }

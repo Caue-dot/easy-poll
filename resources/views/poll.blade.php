@@ -26,7 +26,7 @@
                             class="rounded-sm bg-cyan-500 hover:bg-sky-700 text-white cursor-pointer p-1.5 font-medium
                         disabled:font-light disabled:border disabled:border-gray-300
                         disabled:text-gray-500 disabled:bg-transparent disabled:cursor-not-allowed"
-                            {{$voted || $poll->status == 'unactive' ? 'disabled' : ''}}
+                            {{$canVote ? '' : 'disabled'}}
                             data-alternative-id="{{ $alternative->id }}"
                             id="vote-{{ $alternative->id }}}"> {{$alternative->title}}:
                             <span class="votes">{{$alternative->votes_count}} </span></button>
@@ -35,11 +35,11 @@
             @endforeach
         </ol>
         <div class="mb-40 1xl:mb-80 2xl:mb-80 text-left w-full" id="information-container">
-            @if($poll->status == 'unactive')
+            @if($isExpired)
                 <p>Essa enquete já encerrou!</p>
                 <p>Deseja começar uma nova? <a class="text-blue-600 font-medium underline" href="/polls/create">Criar
                         nova enquete</a></p>
-            @elseif(request()->cookie("voted_$poll->id"))
+            @elseif($userVoted)
                 <div class="text-left">Seu voto já foi registrado nessa enquete!</div>
             @endif
             <div class="text-green-500 font-medium" id="success-message"></div>
