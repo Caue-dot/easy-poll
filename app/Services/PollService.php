@@ -6,12 +6,12 @@ use App\Events\VoteEvent;
 
 readonly class PollService
 {
-    public function __construct(private GuestService $guestService)
+    public function __construct(private UserService $userService)
     {}
 
     public function userVoted($poll): bool{
-        $guestId = $this->guestService->getGuestId();
-        return $poll->votes()->where('user_id', $guestId)->exists();
+        $userId = $this->userService->getUserId();
+        return $poll->votes()->where('user_id', $userId)->exists();
     }
 
     public function getRemainingTime($poll): float{
@@ -20,13 +20,13 @@ readonly class PollService
     }
 
     public function vote($alternative): void{
-        $guestId = $this->guestService->getGuestId();
+        $userId = $this->userService->getUserId();
         $poll = $alternative->poll;
 
         broadcast(new VoteEvent($alternative))->toOthers();
         $alternative->increment('votes_count');
 
-        $poll->votes()->create(['user_id' => $guestId]);
+        $poll->votes()->create(['user_id' => $userId]);
     }
 
 }

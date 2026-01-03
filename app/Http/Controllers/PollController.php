@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PollStoreRequest;
 use App\Models\Alternative;
 use App\Models\Poll;
-use App\Services\GuestService;
+use App\Services\UserService;
 use App\Services\PollService;
 use Illuminate\Http\Request;
 
 class PollController extends Controller
 {
-    public function __construct(private readonly PollService $pollService,
-                                private readonly  GuestService $guestService)
+    public function __construct(private readonly PollService  $pollService,
+                                private readonly  UserService $guestService)
     {}
 
     public function showCreatePoll(){
@@ -27,9 +27,9 @@ class PollController extends Controller
     }
 
     public function showPolls(){
-        $guestId = $this->guestService->getGuestId();
+        $userId = $this->guestService->getUserId();
 
-        $polls = Poll::where('user_id', $guestId)->get();
+        $polls = Poll::where('user_id', $userId)->get();
 
         foreach ($polls as $poll) {
             $poll['time_left'] =  $this->pollService->getRemainingTime($poll);
@@ -39,7 +39,7 @@ class PollController extends Controller
     }
     public function store(PollStoreRequest $request){
         $data = $request->validated();
-        $data['user_id'] = $this->guestService->getGuestId();
+        $data['user_id'] = $this->guestService->getUserId();
         $poll = Poll::create($data);
         foreach ($data['alternatives'] as $alternative){
             $poll->alternatives()->create(['title' => $alternative]);
