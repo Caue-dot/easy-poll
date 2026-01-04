@@ -17,7 +17,12 @@ readonly class PollService
 
 
     public function canGuestUserVote($poll): bool{
-        return !Auth::user() && $poll->require_login;
+//        dd(['requireLogin' => $poll->require_login, 'auth' => Auth::check()]);
+        if(!Auth::check() && $poll->require_login){
+            return false;
+        }
+
+        return true;
     }
 
     public function isPollExpired($poll): bool{

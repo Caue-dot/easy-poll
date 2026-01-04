@@ -19,7 +19,7 @@ Route::get('/register', function () {
 
 Route::post('/users/login', [UserController::class, 'login']);
 Route::post('/users/register', [UserController::class, 'register']);
-
+Route::post('/users/logout', [UserController::class, 'logout']);
 
 Route::prefix('/polls')->group(function () {
     Route::get('/create', [\App\Http\Controllers\PollController::class, 'showCreatePoll']);

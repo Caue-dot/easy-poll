@@ -41,6 +41,8 @@
                         nova enquete</a></p>
             @elseif($userVoted)
                 <div class="text-left">Seu voto já foi registrado nessa enquete!</div>
+            @elseif(!$canGuestUserVote)
+                <div class="text-left text-red-600 font-medium">Você precisa fazer login para votar nessa enquete!</div>
             @endif
             <div class="text-green-500 font-medium" id="success-message"></div>
 

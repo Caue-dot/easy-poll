@@ -7,5 +7,13 @@
         <a href="/" class="cursor-pointer hover:underline font-medium"> Pagina Inicial </a>
         <a href="/polls/create" class="cursor-pointer hover:underline font-medium"> Criar Enquete</a>
         <a href="/polls/all" class="cursor-pointer hover:underline font-medium"> Minhas Enquetes </a>
+        @if(Auth::check())
+            <form action="/users/logout" method="POST">
+                @csrf
+                <button type="submit" class="cursor-pointer hover:underline font-medium">Sair</button>
+            </form>
+        @else
+            <a href="/login" class="cursor-pointer hover:underline font-medium">Login/Registrar</a>
+        @endif
     </div>
 </header>

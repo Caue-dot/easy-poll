@@ -23,14 +23,16 @@ class PollController extends Controller
     public function show(Poll $poll){
         $isExpired = $this->pollService->isPollExpired($poll);
         $userVoted = $this->pollService->userVoted($poll);
-        $canVote = !($isExpired || $userVoted || $this->pollService->canGuestUserVote($poll));
+        $canGuestUserVote =  $this->pollService->canGuestUserVote($poll);
+        $canVote = !($isExpired || $userVoted || !$canGuestUserVote);
 
         return view('poll',
             [
                 'poll' => $poll->load('alternatives'),
                 'canVote' => $canVote,
                 'isExpired' => $isExpired,
-                'userVoted' => $userVoted]);
+                'userVoted' => $userVoted,
+                'canGuestUserVote' => $canGuestUserVote]);
     }
 
     public function showPolls(){
@@ -63,7 +65,7 @@ class PollController extends Controller
 
         abort_if($userVoted, 403, 'Você já votou nessa enquete!');
         abort_if($isPollExpired, 403, 'Essa enquete está expirada');
-        abort_if($this->pollService->canGuestUserVote($poll), 403, 'Essa enquete requer que você esteja logado!');
+        abort_if(!$this->pollService->canGuestUserVote($poll), 403, 'Essa enquete requer que você esteja logado!');
 
         $this->pollService->vote($alternative);
 

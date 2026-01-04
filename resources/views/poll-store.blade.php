@@ -30,7 +30,8 @@
                 </div>
                 <div class="mb-2">
                     <label for="requireLogin">Requer Login para Votar?</label>
-                    <input id="requireLogin" name="require_login" type="checkbox" {{old("require_login") ? "checked" : ""}}>
+                    <input type="hidden" name="require_login" value="0">
+                    <input id="requireLogin" name="require_login" type="checkbox" value="1"}>
                 </div>
 
                 <h2>Adicionar alternativas:</h2>

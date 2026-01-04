@@ -43,4 +43,9 @@ class UserController extends Controller
             'error' => 'Invalid Credentials.',
         ])->onlyInput('login');
     }
+
+    public function logout(Request $request){
+        Auth::logout();
+        return redirect('/login');
+    }
 }
