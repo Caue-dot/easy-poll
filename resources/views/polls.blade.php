@@ -23,7 +23,7 @@
             <div>Tempo restante</div>
         </div>
 
-        <div class="flex flex-col gap-y-2">
+        <div class="flex flex-col gap-y-2 mb-12">
             @foreach($polls as $poll)
                 <a href="/polls/{{$poll->id}}" class="grid grid-cols-3 text-center bg-cyan-500 hover:bg-sky-700 rounded-sm text-white p-2 sm:p-2.5">
                     <div class="font-bold text-center"> {{$poll->title}}</div>

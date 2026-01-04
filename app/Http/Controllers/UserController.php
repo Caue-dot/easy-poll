@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,23 +18,16 @@ class UserController extends Controller
     public function showRegister(){
         return view('register');
     }
-    public function register(Request $request){
-        $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
+    public function register(RegisterRequest $request){
+        $data = $request->validated();
 
         User::create($data);
 
         return redirect('/login');
     }
 
-    public function login(Request $request){
-        $credentials = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'password' => ['required', 'string'],
-        ]);
+    public function login(LoginRequest $request){
+        $credentials = $request->validated();
 
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
@@ -40,8 +35,8 @@ class UserController extends Controller
         }
 
         return back()->withErrors([
-            'error' => 'Invalid Credentials.',
-        ])->onlyInput('login');
+            'error' => 'Credenciais Inválidas',
+        ]);
     }
 
     public function logout(Request $request){
